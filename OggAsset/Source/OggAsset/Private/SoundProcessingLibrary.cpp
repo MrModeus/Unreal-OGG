@@ -22,7 +22,7 @@ USoundWave* USoundProcessingLibrary::LoadOggAsset(UOggAsset* OggAsset)
 
 USoundWave* USoundProcessingLibrary::LoadOggFile(const FString& InFilePath)
 {
-		// TArray that holds the binary and encoded Sound data
+	// TArray that holds the binary and encoded Sound data
 	TArray<uint8> RawFile;
 
 	// Load file into RawFile Array
@@ -40,23 +40,23 @@ USoundWave* USoundProcessingLibrary::LoadData(const TArray<uint8>& RawFile)
 	USoundWave* CompressedSoundWaveRef = NewObject<USoundWave>(USoundWave::StaticClass());
 
 	// Make sure the SoundWave Object is Valid
-	if (!CompressedSoundWaveRef) {
-
+	if (!CompressedSoundWaveRef) 
+	{
 		PrintError(TEXT("Failed to create new SoundWave Object!"));
 		return nullptr;
 	}
 
 	// Fill the SoundData into the SoundWave Object
-	if (RawFile.Num() > 0) {
-
-		if (!FillSoundWaveInfo(CompressedSoundWaveRef, (TArray<uint8>*)&RawFile)) {
-
+	if (RawFile.Num() > 0) 
+	{
+		if (!FillSoundWaveInfo(CompressedSoundWaveRef, (TArray<uint8>*)&RawFile)) 
+		{
 			PrintError(TEXT("Something went wrong while loading the Sound Data!"));
 			return nullptr;
 		}
 	}
-	else {
-
+	else 
+	{
 		PrintError(TEXT("RawFile Array is empty! Seams like Sound couldn't be loaded correctly."));
 		return nullptr;
 	}
@@ -96,7 +96,7 @@ bool USoundProcessingLibrary::FillSoundWaveInfo(USoundWave* InSoundWave, TArray<
 	InSoundWave->NumChannels = SoundQualityInfo.NumChannels;
 	InSoundWave->Duration = SoundQualityInfo.Duration;
 	InSoundWave->RawPCMDataSize = SoundQualityInfo.SampleDataSize;
-	InSoundWave->SampleRate = SoundQualityInfo.SampleRate;
+	InSoundWave->SetSampleRate(SoundQualityInfo.SampleRate);
 
 	return true;
 }
@@ -105,14 +105,14 @@ bool USoundProcessingLibrary::FillSoundWaveInfo(USoundWave* InSoundWave, TArray<
 
 void USoundProcessingLibrary::GetPCMDataFromFile(USoundWave* InSoundWave)
 {
-	if (InSoundWave == nullptr)	{
-
+	if (InSoundWave == nullptr)	
+	{
 		PrintError(TEXT("Passed SoundWave pointer is a nullptr!"));
 		return;
 	}
 
-	if (InSoundWave->NumChannels < 1 || InSoundWave->NumChannels > 2) {
-
+	if (InSoundWave->NumChannels < 1 || InSoundWave->NumChannels > 2) 
+	{
 		PrintError(TEXT("SoundWave Object has not the right amount of Channels. Plugin only supports 1 or 2!"));
 		return;
 	}
@@ -122,8 +122,8 @@ void USoundProcessingLibrary::GetPCMDataFromFile(USoundWave* InSoundWave)
 		// Get a Pointer to the Main Audio Device
 		FAudioDevice* AudioDevice = GEngine->GetMainAudioDevice();
 
-		if (AudioDevice) {
-
+		if (AudioDevice) 
+		{
 			InSoundWave->InitAudioResource(AudioDevice->GetRuntimeFormat(InSoundWave));
 
 			PrintLog(TEXT("Creating new DecompressWorker."));
@@ -131,8 +131,8 @@ void USoundProcessingLibrary::GetPCMDataFromFile(USoundWave* InSoundWave)
 			// Creates a new DecompressWorker and starts it
 			InitNewDecompressTask(InSoundWave);
 		}
-		else {
-
+		else 
+		{
 			PrintError(TEXT("Couldn't get a valid Pointer to the Main AudioDevice!"));
 			return;
 		}
@@ -155,7 +155,8 @@ void USoundProcessingLibrary::InitNewDecompressTask(USoundWave* InSoundWaveRef)
 		// Init new Worker and pass the SoundWaveRef to decompress it
 		FAudioDecompressWorker::InitializeWorker(InSoundWaveRef);
 	}
-	else {
+	else 
+	{
 		PrintLog(TEXT("Worker not finished!"));
 	}
 }
