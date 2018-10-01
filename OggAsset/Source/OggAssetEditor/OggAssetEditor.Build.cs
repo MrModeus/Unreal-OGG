@@ -1,10 +1,8 @@
-// Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
-
 using UnrealBuildTool;
 
 public class OggAssetEditor : ModuleRules
 {
-	public OggAssetEditor(TargetInfo Target)
+	public OggAssetEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[] {
