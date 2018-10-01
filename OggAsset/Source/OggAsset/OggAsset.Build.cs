@@ -1,10 +1,9 @@
-// Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
 namespace UnrealBuildTool.Rules
 {
 	public class OggAsset : ModuleRules
 	{
-		public OggAsset(TargetInfo Target)
+		public OggAsset(ReadOnlyTargetRules Target) : base(Target)
 		{
             PublicDependencyModuleNames.AddRange(
                 new string[] {
